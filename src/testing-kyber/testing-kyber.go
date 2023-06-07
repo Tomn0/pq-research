@@ -74,18 +74,21 @@ func control(message string) {
 	if err != nil {
 		panic(err)
 	}
-
+	fmt.Printf("Public key type:\t%s\n", bob_pk.Scheme().Name())
 	fmt.Printf("Suite params: %s \n", suite.String())
 
-	fmt.Printf("Bob's Public Key (pk) = %X (first 32 bytes)\n", bob_pk)
-	fmt.Printf("Bob's Private key (sk) = %X (first 32 bytes)\n", bob_sk)
-
-	fmt.Printf("Ciphertext (ct) = %X (first 32 bytes)\n", ct)
+	fmt.Printf("Bob's Public Key (pk) = %X\n", bob_pk)
+	fmt.Printf("Bob's Private key (sk) = %X\n", bob_sk)
+	fmt.Printf("Ciphertext (ct) = %X\n", ct)
+	fmt.Printf("Shared Key Size:\t%d\n", hpke.KEM(kemID).Scheme().SharedKeySize())
 
 	fmt.Printf("\n\nLength of Bob's Public Key (pk) = %d bytes \n", hpke.KEM(kemID).Scheme().PublicKeySize())
 	fmt.Printf("Length of Bob's Secret Key (pk)  = %d  bytes\n", hpke.KEM(kemID).Scheme().PrivateKeySize())
 	fmt.Printf("Length of Ciphertext (ct) = %d  bytes\n", len(ct))
-
+	// fmt.Printf(" Ciphersize:\t%d\n", hpke.KEM(kemID).Scheme().CiphertextSize())
+	// ct_unmarsh, _ := hpke.UnmarshalSealer(ct)
+	fmt.Printf("Cipher:\t%x\n", ct)
+	fmt.Printf("Plaintext:\t%s\n", ptBob)
 	// Plaintext was sent successfully.
 	fmt.Println(bytes.Equal(msg, ptBob))
 
